@@ -65,6 +65,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -73,8 +74,33 @@
                                FontWeight="SemiBold"
                                Margin="0,0,0,12" />
 
-                    <ListBox Grid.Row="1"
-                             ItemsSource="{Binding Assets}"
+                    <Grid Grid.Row="1"
+                          Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="90" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0"
+                                 Padding="8,6"
+                                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{Binding AssetTypeFilters}"
+                                  SelectedItem="{Binding SelectedAssetTypeFilter, Mode=TwoWay}"
+                                  Padding="6,4" />
+
+                        <ComboBox Grid.Column="4"
+                                  ItemsSource="{Binding ApprovalFilters}"
+                                  SelectedItem="{Binding SelectedApprovalFilter, Mode=TwoWay}"
+                                  Padding="6,4" />
+                    </Grid>
+
+                    <ListBox Grid.Row="2"
+                             ItemsSource="{Binding FilteredAssets}"
                              SelectedItem="{Binding SelectedAsset, Mode=TwoWay}"
                              BorderThickness="0"
                              Background="Transparent">
@@ -164,13 +190,8 @@
                         <ComboBox Grid.Row="2"
                                   Grid.Column="1"
                                   Margin="0,0,0,12"
-                                  IsEditable="True"
-                                  SelectedItem="{Binding SelectedAsset.AssetType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <ComboBoxItem Content="Image" />
-                            <ComboBoxItem Content="Video" />
-                            <ComboBoxItem Content="Document" />
-                            <ComboBoxItem Content="Graphic" />
-                        </ComboBox>
+                                  ItemsSource="{Binding AssetTypes}"
+                                  SelectedItem="{Binding SelectedAsset.AssetType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"

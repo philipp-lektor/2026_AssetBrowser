@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using AssetBrowser.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,11 +13,33 @@ public partial class MainViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(DeleteSelectedAssetCommand))]
     private AssetItem? selectedAsset;
 
+    [ObservableProperty]
+    private string searchText = string.Empty;
+
+    [ObservableProperty]
+    private string selectedAssetTypeFilter = "All";
+
+    [ObservableProperty]
+    private string selectedApprovalFilter = "All";
+
     public ObservableCollection<AssetItem> Assets { get; } = new();
+
+    // ICollectionView is a simple WPF way to add search and filter behavior
+    // without replacing the original collection.
+    public ICollectionView FilteredAssets { get; }
+
+    public IReadOnlyList<string> AssetTypes { get; } = ["Image", "Video", "Document", "Graphic"];
+
+    public IReadOnlyList<string> AssetTypeFilters { get; } = ["All", "Image", "Video", "Document", "Graphic"];
+
+    public IReadOnlyList<string> ApprovalFilters { get; } = ["All", "Approved", "Not Approved"];
 
     public MainViewModel()
     {
         LoadMockData();
+
+        FilteredAssets = CollectionViewSource.GetDefaultView(Assets);
+        FilteredAssets.Filter = FilterAsset;
     }
 
     private void LoadMockData()
@@ -75,6 +99,7 @@ public partial class MainViewModel : ObservableObject
         };
 
         Assets.Add(newAsset);
+        RefreshFilters();
         SelectedAsset = newAsset;
     }
 
@@ -90,6 +115,7 @@ public partial class MainViewModel : ObservableObject
         var assetIndex = Assets.IndexOf(assetToRemove);
 
         Assets.Remove(assetToRemove);
+        RefreshFilters();
 
         if (Assets.Count == 0)
         {
@@ -110,5 +136,54 @@ public partial class MainViewModel : ObservableObject
     private void ClearSelection()
     {
         SelectedAsset = null;
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        RefreshFilters();
+    }
+
+    partial void OnSelectedAssetTypeFilterChanged(string value)
+    {
+        RefreshFilters();
+    }
+
+    partial void OnSelectedApprovalFilterChanged(string value)
+    {
+        RefreshFilters();
+    }
+
+    private void RefreshFilters()
+    {
+        FilteredAssets.Refresh();
+
+        if (SelectedAsset is not null && !MatchesFilter(SelectedAsset))
+        {
+            SelectedAsset = null;
+        }
+    }
+
+    private bool FilterAsset(object item)
+    {
+        return item is AssetItem asset && MatchesFilter(asset);
+    }
+
+    private bool MatchesFilter(AssetItem asset)
+    {
+        var matchesSearch = string.IsNullOrWhiteSpace(SearchText)
+            || asset.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+            || asset.FileName.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+
+        var matchesType = SelectedAssetTypeFilter == "All"
+            || asset.AssetType.Equals(SelectedAssetTypeFilter, StringComparison.OrdinalIgnoreCase);
+
+        var matchesApproval = SelectedApprovalFilter switch
+        {
+            "Approved" => asset.IsApproved,
+            "Not Approved" => !asset.IsApproved,
+            _ => true
+        };
+
+        return matchesSearch && matchesType && matchesApproval;
     }
 }

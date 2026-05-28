@@ -132,12 +132,37 @@ Bereits umgesetzt:
 
 ### Schritt 2: Suche und Filter
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - Suchfeld für Titel oder Dateinamen
 - Filter nach Asset-Typ
-- optional Filter nach Freigabestatus
+- Filter nach Freigabestatus
 - Einführung in `CollectionView` und Filterlogik
+- gefilterte Anzeige der Asset-Liste
+- automatische Aktualisierung der Filter bei Eingaben
+- Rücksetzen der Auswahl, wenn ein Asset nicht mehr zum aktiven Filter passt
+
+## Umgesetzte Entwicklungsschritte
+
+### Ausgeführt: Schritt 1
+
+Ergänzt wurden:
+
+- `AssetItem` als einfaches Model
+- `MainViewModel` mit Mockdaten
+- Commands für Hinzufügen, Löschen und Auswahl aufheben
+- grundlegende Asset-Liste mit Detailansicht
+- editierbare Bindings in der Oberfläche
+
+### Ausgeführt: Schritt 2
+
+Ergänzt wurden:
+
+- Suchfeld für `Title` und `FileName`
+- Filter nach Asset-Typ
+- Filter nach Freigabestatus
+- `ICollectionView` für die gefilterte Anzeige
+- einfache, didaktisch nachvollziehbare Filterlogik im ViewModel
 
 ### Schritt 3: Bessere Darstellung mit DataTemplates
 
