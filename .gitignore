@@ -1,0 +1,43 @@
+## Build artifacts
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+
+## User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio / VS Code
+.vs/
+.vscode/
+
+## Debug / test results
+[Dd]ebug/
+[Rr]elease/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+
+## Logs
+*.log
+
+## WPF generated files
+*.g.cs
+*.g.i.cs
+*.baml
+
+## OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
