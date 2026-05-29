@@ -230,11 +230,12 @@ Bereits umgesetzt:
 
 ### Schritt 7: Animationen
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
-- einfache Hover- oder Auswahlanimationen
-- weiche Übergänge in der Oberfläche
-- Einführung in Storyboards und WPF-Animationen
+- dezente Hover-Animationen für Asset-Listeneinträge
+- leichte Skalierung beim Überfahren
+- weicher Schatten für mehr Tiefenwirkung
+- animierter Übergang der Rahmenfarbe
 
 ### Schritt 8: Services
 
