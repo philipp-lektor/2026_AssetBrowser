@@ -28,7 +28,7 @@ Ein **Asset** ist ein digitales Objekt, zum Beispiel:
 - Dokument
 - Grafik
 
-In der aktuellen ersten Version arbeitet die Anwendung ausschließlich mit **lokalen Mockdaten**.
+In der aktuellen Version arbeitet die Anwendung mit **lokalen Mockdaten**, die über einen einfachen Service bereitgestellt werden.
 
 ## Technischer Stand von Version 1
 
@@ -37,7 +37,7 @@ Diese erste Version enthält bewusst nur eine kleine und gut verständliche Basi
 - 1 Model: `AssetItem`
 - 1 ViewModel: `MainViewModel`
 - 1 View: `MainWindow`
-- Mockdaten im ViewModel
+- Mockdaten über einen einfachen Service
 - Auswahl eines Assets
 - editierbare Detailansicht
 - einfache Commands zum Hinzufügen, Löschen und Abwählen
@@ -49,6 +49,9 @@ Diese erste Version enthält bewusst nur eine kleine und gut verständliche Basi
 AssetBrowser/
 ├─ Models/
 │  └─ AssetItem.cs
+├─ Services/
+│  ├─ IAssetService.cs
+│  └─ MockAssetService.cs
 ├─ ViewModels/
 │  └─ MainViewModel.cs
 ├─ MainWindow.xaml
@@ -112,7 +115,7 @@ Die Architektur ist absichtlich **einfach** gehalten:
 - noch **keine REST API**
 - noch **keine Datenbank**
 - noch **keine Navigation**
-- noch **keine Service-Schicht**
+- einfache **Service-Schicht** für Mockdaten
 
 Das Projekt soll leicht verständlich bleiben und sich gut für Lehre, Übungen und schrittweise Erweiterungen eignen.
 
@@ -239,11 +242,18 @@ Bereits umgesetzt:
 
 ### Schritt 8: Services
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - Asset-Daten aus einem einfachen Service statt direkt im ViewModel
 - bessere Trennung von UI-Logik und Datenbereitstellung
 - Vorbereitung auf testbarere Strukturen
+- `IAssetService` als einfache Schnittstelle für Asset-Daten
+- `MockAssetService` als Auslagerung der bisherigen Mockdaten
+- Erstellung des `MainViewModel` mit Service-Übergabe beim App-Start
+- neuer Ordner `Services` mit `IAssetService` und `MockAssetService`
+- Auslagerung der Mockdaten aus dem `MainViewModel` in eine eigene Service-Klasse
+- Laden der Startdaten über einen Service-Vertrag statt über direkte Mocklogik im ViewModel
+- einfacher App-Start über `OnStartup`, um Service und MainWindow ohne DI-Container zu verbinden
 
 ### Schritt 9: Dependency Injection
 

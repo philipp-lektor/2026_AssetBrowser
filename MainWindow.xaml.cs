@@ -1,14 +1,15 @@
 ﻿using System.Windows;
+using AssetBrowser.Services;
 using AssetBrowser.ViewModels;
 
 namespace AssetBrowser
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(IAssetService assetService)
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new MainViewModel(assetService);
         }
     }
 }

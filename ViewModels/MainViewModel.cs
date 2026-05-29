@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using AssetBrowser.Models;
+using AssetBrowser.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -40,51 +41,24 @@ public partial class MainViewModel : ObservableObject
 
     public IReadOnlyList<string> Themes { get; } = ["Light", "Dark"];
 
-    public MainViewModel()
+    private readonly IAssetService assetService;
+
+    public MainViewModel(IAssetService assetService)
     {
-        LoadMockData();
+        this.assetService = assetService;
+
+        LoadAssets();
 
         FilteredAssets = CollectionViewSource.GetDefaultView(Assets);
         FilteredAssets.Filter = FilterAsset;
     }
 
-    private void LoadMockData()
+    private void LoadAssets()
     {
-        RegisterAsset(new AssetItem
+        foreach (var asset in assetService.GetAssets())
         {
-            Title = "Mountain Sunrise",
-            FileName = "mountain-sunrise.jpg",
-            AssetType = "Image",
-            Description = "A landscape photo used for a tourism campaign.",
-            CreatedBy = "Emma Carter",
-            CreatedAt = new DateTime(2025, 3, 12),
-            IsApproved = true,
-            ThumbnailPath = "https://picsum.photos/seed/mountain-sunrise/320/180"
-        });
-
-        RegisterAsset(new AssetItem
-        {
-            Title = "Product Launch Trailer",
-            FileName = "launch-trailer.mp4",
-            AssetType = "Video",
-            Description = "Short teaser video for the new product release.",
-            CreatedBy = "Liam Johnson",
-            CreatedAt = new DateTime(2025, 4, 2),
-            IsApproved = false,
-            ThumbnailPath = "https://picsum.photos/seed/launch-trailer/320/180"
-        });
-
-        RegisterAsset(new AssetItem
-        {
-            Title = "Brand Guidelines",
-            FileName = "brand-guidelines.pdf",
-            AssetType = "Document",
-            Description = "PDF document with logo, colors and typography rules.",
-            CreatedBy = "Sophia Miller",
-            CreatedAt = new DateTime(2025, 1, 18),
-            IsApproved = true,
-            ThumbnailPath = "https://picsum.photos/seed/brand-guidelines/320/180"
-        });
+            RegisterAsset(asset);
+        }
 
         SelectedAsset = Assets.FirstOrDefault();
     }

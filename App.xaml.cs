@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using AssetBrowser.Services;
 
 namespace AssetBrowser
 {
@@ -24,6 +25,15 @@ namespace AssetBrowser
             {
                 Source = new Uri($"Resources/Themes/{themeName}Theme.xaml", UriKind.Relative)
             });
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            IAssetService assetService = new MockAssetService();
+            var mainWindow = new MainWindow(assetService);
+            mainWindow.Show();
         }
     }
 
