@@ -183,11 +183,14 @@ Bereits umgesetzt:
 
 ### Schritt 4: Styles
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - zentrale Styles für Buttons, TextBoxen und Container
 - konsistenteres Erscheinungsbild
 - Einführung in wiederverwendbare UI-Gestaltung
+- gemeinsame Brushes und Abstände in `Window.Resources`
+- Styles für Card-Container, Überschriften, Labels, Eingabefelder und Status-Badges
+- weniger direkt verteilte visuelle Werte im XAML
 
 ### Schritt 5: Resource Dictionaries
 

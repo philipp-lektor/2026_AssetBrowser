@@ -5,13 +5,109 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="AssetBrowser" Height="600" Width="1000"
-        MinHeight="500" MinWidth="900">
+        MinHeight="800" MinWidth="1200">
     <Window.Resources>
+        <SolidColorBrush x:Key="Brush.PanelBackground" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="Brush.PanelBorder" Color="#FFD0D7DE" />
+        <SolidColorBrush x:Key="Brush.SubtlePanelBackground" Color="#FFF3F4F6" />
+        <SolidColorBrush x:Key="Brush.ItemBackground" Color="#FFF9FAFB" />
+        <SolidColorBrush x:Key="Brush.ItemBorder" Color="#FFE5E7EB" />
+        <SolidColorBrush x:Key="Brush.TextMuted" Color="#FF6B7280" />
+        <SolidColorBrush x:Key="Brush.TextSecondary" Color="#FF4B5563" />
+        <SolidColorBrush x:Key="Brush.TypeBadgeBackground" Color="#FFE0E7FF" />
+        <SolidColorBrush x:Key="Brush.TypeBadgeForeground" Color="#FF3730A3" />
+        <SolidColorBrush x:Key="Brush.SuccessBackground" Color="#FFDCFCE7" />
+        <SolidColorBrush x:Key="Brush.SuccessForeground" Color="#FF166534" />
+        <SolidColorBrush x:Key="Brush.WarningBackground" Color="#FFFEE2E2" />
+        <SolidColorBrush x:Key="Brush.WarningForeground" Color="#FF991B1B" />
+
+        <Thickness x:Key="Spacing.FieldMargin">0,0,0,12</Thickness>
+
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource Brush.PanelBackground}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Brush.PanelBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+
+        <Style x:Key="SectionTitleTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+
+        <Style x:Key="FormLabelTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,12,12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="FieldTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="{StaticResource Spacing.FieldMargin}" />
+        </Style>
+
+        <Style x:Key="FieldComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Margin" Value="{StaticResource Spacing.FieldMargin}" />
+        </Style>
+
+        <Style x:Key="FieldDatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Margin" Value="{StaticResource Spacing.FieldMargin}" />
+        </Style>
+
+        <Style x:Key="FieldCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Margin" Value="{StaticResource Spacing.FieldMargin}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+        </Style>
+
+        <Style x:Key="PreviewPlaceholderTextStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+        </Style>
+
+        <Style x:Key="PreviewImageStyle" TargetType="Image">
+            <Setter Property="Stretch" Value="UniformToFill" />
+            <Setter Property="Visibility" Value="Visible" />
+        </Style>
+
+        <Style x:Key="ItemMetaTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}" />
+        </Style>
+
+        <Style x:Key="ItemStatusBadgeStyle" TargetType="Border">
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="Margin" Value="12,0,0,0" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Background" Value="{StaticResource Brush.WarningBackground}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsApproved}" Value="True">
+                    <Setter Property="Background" Value="{StaticResource Brush.SuccessBackground}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ItemStatusTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource Brush.WarningForeground}" />
+            <Setter Property="Text" Value="Not approved" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsApproved}" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource Brush.SuccessForeground}" />
+                    <Setter Property="Text" Value="Approved" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <DataTemplate x:Key="AssetListItemTemplate">
             <Border Padding="12"
                     Margin="0,0,0,10"
-                    Background="#FFF9FAFB"
-                    BorderBrush="#FFE5E7EB"
+                    Background="{StaticResource Brush.ItemBackground}"
+                    BorderBrush="{StaticResource Brush.ItemBorder}"
                     BorderThickness="1"
                     CornerRadius="8">
                 <Grid>
@@ -30,16 +126,13 @@
                     <Border Grid.RowSpan="4"
                             Grid.Column="0"
                             Height="64"
-                            Background="#FFE5E7EB"
+                            Background="{StaticResource Brush.ItemBorder}"
                             CornerRadius="6"
                             ClipToBounds="True">
                         <Grid>
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Foreground="#FF6B7280"
-                                       Text="No Preview">
+                            <TextBlock Text="No Preview">
                                 <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource PreviewPlaceholderTextStyle}">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ThumbnailPath}" Value="">
@@ -52,11 +145,9 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <Image Source="{Binding ThumbnailPath}"
-                                   Stretch="UniformToFill">
+                            <Image Source="{Binding ThumbnailPath}">
                                 <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Visibility" Value="Visible" />
+                                    <Style TargetType="Image" BasedOn="{StaticResource PreviewImageStyle}">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ThumbnailPath}" Value="">
                                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -86,25 +177,25 @@
                         <Border Grid.Column="1"
                                 Padding="8,3"
                                 Margin="12,0,0,0"
-                                Background="#FFE0E7FF"
+                                Background="{StaticResource Brush.TypeBadgeBackground}"
                                 CornerRadius="12">
                             <TextBlock Text="{Binding AssetType}"
                                        FontSize="11"
                                        FontWeight="SemiBold"
-                                       Foreground="#FF3730A3" />
+                                       Foreground="{StaticResource Brush.TypeBadgeForeground}" />
                         </Border>
                     </Grid>
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="2"
                                Margin="0,8,0,0"
-                               Foreground="#FF6B7280"
+                               Style="{StaticResource ItemMetaTextStyle}"
                                Text="{Binding FileName}" />
 
                     <TextBlock Grid.Row="2"
                                Grid.Column="2"
                                Margin="0,8,0,0"
-                               Foreground="#FF4B5563"
+                               Foreground="{StaticResource Brush.TextSecondary}"
                                Text="{Binding Description}"
                                TextTrimming="CharacterEllipsis" />
 
@@ -113,43 +204,17 @@
                                Margin="0,10,0,0"
                                LastChildFill="False">
                         <TextBlock DockPanel.Dock="Left"
-                                   Foreground="#FF6B7280"
+                                   Style="{StaticResource ItemMetaTextStyle}"
                                    Text="{Binding CreatedBy, StringFormat=By {0}}" />
 
                         <TextBlock DockPanel.Dock="Left"
                                    Margin="12,0,0,0"
-                                   Foreground="#FF6B7280"
+                                   Style="{StaticResource ItemMetaTextStyle}"
                                    Text="{Binding CreatedAt, StringFormat={}{0:dd.MM.yyyy}}" />
 
                         <Border DockPanel.Dock="Right"
-                                Padding="8,3"
-                                Margin="12,0,0,0"
-                                CornerRadius="12">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="#FFFEE2E2" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsApproved}" Value="True">
-                                            <Setter Property="Background" Value="#FFDCFCE7" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <TextBlock FontSize="11"
-                                       FontWeight="SemiBold">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#FF991B1B" />
-                                        <Setter Property="Text" Value="Not approved" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsApproved}" Value="True">
-                                                <Setter Property="Foreground" Value="#FF166534" />
-                                                <Setter Property="Text" Value="Approved" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                                Style="{StaticResource ItemStatusBadgeStyle}">
+                            <TextBlock Style="{StaticResource ItemStatusTextStyle}" />
                         </Border>
                     </DockPanel>
                 </Grid>
@@ -166,16 +231,14 @@
         <Border Grid.Row="0"
                 Padding="16"
                 Margin="0,0,0,16"
-                Background="#FFF3F4F6"
-                BorderBrush="#FFD0D7DE"
-                BorderThickness="1"
-                CornerRadius="8">
+                Background="{StaticResource Brush.SubtlePanelBackground}"
+                Style="{StaticResource CardBorderStyle}">
             <StackPanel>
                 <TextBlock Text="AssetBrowser"
                            FontSize="24"
                            FontWeight="Bold" />
                 <TextBlock Margin="0,6,0,0"
-                           Foreground="#FF4B5563"
+                           Foreground="{StaticResource Brush.TextSecondary}"
                            Text="Simple learning project for WPF, MVVM, data binding and commands." />
             </StackPanel>
         </Border>
@@ -183,19 +246,18 @@
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal"
                     Margin="0,0,0,16">
-            <Button Content="Add Asset"
+            <Button Style="{StaticResource ActionButtonStyle}"
+                    Content="Add Asset"
                     Width="120"
-                    Padding="12,6"
-                    Margin="0,0,8,0"
                     Command="{Binding AddAssetCommand}" />
-            <Button Content="Delete Selected Asset"
+            <Button Style="{StaticResource ActionButtonStyle}"
+                    Content="Delete Selected Asset"
                     Width="170"
-                    Padding="12,6"
-                    Margin="0,0,8,0"
                     Command="{Binding DeleteSelectedAssetCommand}" />
-            <Button Content="Clear Selection"
+            <Button Style="{StaticResource ActionButtonStyle}"
+                    Content="Clear Selection"
                     Width="130"
-                    Padding="12,6"
+                    Margin="0"
                     Command="{Binding ClearSelectionCommand}" />
         </StackPanel>
 
@@ -208,10 +270,7 @@
 
             <Border Grid.Column="0"
                     Padding="12"
-                    Background="White"
-                    BorderBrush="#FFD0D7DE"
-                    BorderThickness="1"
-                    CornerRadius="8">
+                    Style="{StaticResource CardBorderStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -220,9 +279,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Assets"
-                               FontSize="18"
-                               FontWeight="SemiBold"
-                               Margin="0,0,0,12" />
+                               Style="{StaticResource SectionTitleTextStyle}" />
 
                     <Grid Grid.Row="1"
                           Margin="0,0,0,12">
@@ -260,10 +317,7 @@
 
             <Border Grid.Column="2"
                     Padding="16"
-                    Background="White"
-                    BorderBrush="#FFD0D7DE"
-                    BorderThickness="1"
-                    CornerRadius="8">
+                    Style="{StaticResource CardBorderStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -271,8 +325,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Asset Details"
-                               FontSize="18"
-                               FontWeight="SemiBold"
+                               Style="{StaticResource SectionTitleTextStyle}"
                                Margin="0,0,0,16" />
 
                     <Grid Grid.Row="1">
@@ -295,25 +348,20 @@
 
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    VerticalAlignment="Top"
                                    Text="Thumbnail" />
                         <Border Grid.Row="0"
                                 Grid.Column="1"
                                 Height="140"
                                 Margin="0,0,0,12"
-                                Background="#FFF3F4F6"
-                                BorderBrush="#FFD0D7DE"
-                                BorderThickness="1"
-                                CornerRadius="8"
+                                Background="{StaticResource Brush.SubtlePanelBackground}"
+                                Style="{StaticResource CardBorderStyle}"
                                 ClipToBounds="True">
                             <Grid>
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Foreground="#FF6B7280"
-                                           Text="No preview available">
+                                <TextBlock Text="No preview available">
                                     <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource PreviewPlaceholderTextStyle}">
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding SelectedAsset.ThumbnailPath}" Value="">
@@ -326,11 +374,9 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Image Source="{Binding SelectedAsset.ThumbnailPath}"
-                                       Stretch="UniformToFill">
+                                <Image Source="{Binding SelectedAsset.ThumbnailPath}">
                                     <Image.Style>
-                                        <Style TargetType="Image">
-                                            <Setter Property="Visibility" Value="Visible" />
+                                        <Style TargetType="Image" BasedOn="{StaticResource PreviewImageStyle}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding SelectedAsset.ThumbnailPath}" Value="">
                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -347,43 +393,40 @@
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Text="Title" />
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
-                                 Margin="0,0,0,12"
+                                 Style="{StaticResource FieldTextBoxStyle}"
                                  Text="{Binding SelectedAsset.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Text="File name" />
                         <TextBox Grid.Row="2"
                                  Grid.Column="1"
-                                 Margin="0,0,0,12"
+                                 Style="{StaticResource FieldTextBoxStyle}"
                                  Text="{Binding SelectedAsset.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Text="Asset type" />
                         <ComboBox Grid.Row="3"
                                   Grid.Column="1"
-                                  Margin="0,0,0,12"
+                                  Style="{StaticResource FieldComboBoxStyle}"
                                   ItemsSource="{Binding AssetTypes}"
                                   SelectedItem="{Binding SelectedAsset.AssetType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="4"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    VerticalAlignment="Top"
                                    Text="Description" />
                         <TextBox Grid.Row="4"
                                  Grid.Column="1"
-                                 Margin="0,0,0,12"
+                                  Style="{StaticResource FieldTextBoxStyle}"
                                  Height="80"
                                  AcceptsReturn="True"
                                  TextWrapping="Wrap"
@@ -392,42 +435,40 @@
 
                         <TextBlock Grid.Row="5"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Text="Created by" />
                         <TextBox Grid.Row="5"
                                  Grid.Column="1"
-                                 Margin="0,0,0,12"
+                                 Style="{StaticResource FieldTextBoxStyle}"
                                  Text="{Binding SelectedAsset.CreatedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="6"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Text="Created at" />
                         <DatePicker Grid.Row="6"
                                     Grid.Column="1"
-                                    Margin="0,0,0,12"
+                                    Style="{StaticResource FieldDatePickerStyle}"
                                     SelectedDate="{Binding SelectedAsset.CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="7"
                                    Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Text="Approved" />
                         <CheckBox Grid.Row="7"
                                   Grid.Column="1"
-                                  Margin="0,0,0,12"
-                                  VerticalAlignment="Center"
+                                  Style="{StaticResource FieldCheckBoxStyle}"
                                   IsChecked="{Binding SelectedAsset.IsApproved, Mode=TwoWay}" />
 
                         <TextBlock Grid.Row="8"
                                    Grid.Column="0"
+                                   Style="{StaticResource FormLabelTextStyle}"
                                    Margin="0,0,12,0"
-                                   VerticalAlignment="Center"
                                    Text="Thumbnail path" />
                         <TextBox Grid.Row="8"
                                  Grid.Column="1"
+                                 Style="{StaticResource FieldTextBoxStyle}"
+                                 Margin="0"
                                  Text="{Binding SelectedAsset.ThumbnailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                 </Grid>
