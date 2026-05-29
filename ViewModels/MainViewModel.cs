@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using AssetBrowser.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -22,6 +23,9 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string selectedApprovalFilter = "All";
 
+    [ObservableProperty]
+    private string selectedTheme = "Light";
+
     public ObservableCollection<AssetItem> Assets { get; } = new();
 
     // ICollectionView is a simple WPF way to add search and filter behavior
@@ -33,6 +37,8 @@ public partial class MainViewModel : ObservableObject
     public IReadOnlyList<string> AssetTypeFilters { get; } = ["All", "Image", "Video", "Document", "Graphic"];
 
     public IReadOnlyList<string> ApprovalFilters { get; } = ["All", "Approved", "Not Approved"];
+
+    public IReadOnlyList<string> Themes { get; } = ["Light", "Dark"];
 
     public MainViewModel()
     {
@@ -152,6 +158,14 @@ public partial class MainViewModel : ObservableObject
     partial void OnSelectedApprovalFilterChanged(string value)
     {
         RefreshFilters();
+    }
+
+    partial void OnSelectedThemeChanged(string value)
+    {
+        if (Application.Current is App app)
+        {
+            app.ApplyTheme(value);
+        }
     }
 
     private void RefreshFilters()

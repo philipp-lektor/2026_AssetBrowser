@@ -6,7 +6,8 @@
         mc:Ignorable="d"
         Title="AssetBrowser" Height="600" Width="1000"
         MinHeight="800" MinWidth="1200">
-    <Grid Margin="16">
+    <Grid Margin="16"
+          Background="{DynamicResource Brush.WindowBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -16,14 +17,15 @@
         <Border Grid.Row="0"
                 Padding="16"
                 Margin="0,0,0,16"
-                Background="{StaticResource Brush.SubtlePanelBackground}"
+                Background="{DynamicResource Brush.SubtlePanelBackground}"
                 Style="{StaticResource CardBorderStyle}">
             <StackPanel>
                 <TextBlock Text="AssetBrowser"
+                           Foreground="{DynamicResource Brush.TextPrimary}"
                            FontSize="24"
                            FontWeight="Bold" />
                 <TextBlock Margin="0,6,0,0"
-                           Foreground="{StaticResource Brush.TextSecondary}"
+                           Foreground="{DynamicResource Brush.TextSecondary}"
                            Text="Simple learning project for WPF, MVVM, data binding and commands." />
             </StackPanel>
         </Border>
@@ -44,6 +46,12 @@
                     Width="130"
                     Margin="0"
                     Command="{Binding ClearSelectionCommand}" />
+
+            <ComboBox Width="120"
+                      Margin="16,0,0,0"
+                      Style="{StaticResource FieldComboBoxStyle}"
+                      ItemsSource="{Binding Themes}"
+                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" />
         </StackPanel>
 
         <Grid Grid.Row="2">
@@ -81,11 +89,13 @@
                                  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <ComboBox Grid.Column="2"
+                                  Style="{StaticResource FieldComboBoxStyle}"
                                   ItemsSource="{Binding AssetTypeFilters}"
                                   SelectedItem="{Binding SelectedAssetTypeFilter, Mode=TwoWay}"
                                   Padding="6,4" />
 
                         <ComboBox Grid.Column="4"
+                                  Style="{StaticResource FieldComboBoxStyle}"
                                   ItemsSource="{Binding ApprovalFilters}"
                                   SelectedItem="{Binding SelectedApprovalFilter, Mode=TwoWay}"
                                   Padding="6,4" />
@@ -140,7 +150,7 @@
                                 Grid.Column="1"
                                 Height="140"
                                 Margin="0,0,0,12"
-                                Background="{StaticResource Brush.SubtlePanelBackground}"
+                                Background="{DynamicResource Brush.SubtlePanelBackground}"
                                 Style="{StaticResource CardBorderStyle}"
                                 ClipToBounds="True">
                             <Grid>

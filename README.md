@@ -209,11 +209,24 @@ Bereits umgesetzt:
 
 ### Schritt 6: Light- und Dark-Theme
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - Farbpaletten für helle und dunkle Oberfläche
 - Theme-Wechsel zur Laufzeit
 - Einstieg in Theming mit WPF-Ressourcen
+- `LightTheme.xaml` und `DarkTheme.xaml` als austauschbare Farbpaletten
+- Theme-Umschaltung über `App.xaml` und `App.xaml.cs`
+- einfache Theme-Auswahl direkt in der Oberfläche
+- zwei getrennte Theme-Dictionaries für Light und Dark
+- Runtime-Wechsel des aktiven Theme-ResourceDictionary
+- zusätzliche Theme-Farben für Fenster, Eingabefelder und Buttons
+- Theme-ComboBox in der MainWindow-Oberfläche
+- themeabhängige Farbressourcen werden jetzt per `DynamicResource` gebunden
+- die Oberfläche aktualisiert sich dadurch sofort beim Wechsel zwischen Light und Dark
+- ComboBox-Ressourcen für das Theme-Dropdown wurden ergänzt, damit auch dessen Darstellung mit dem aktiven Theme wechselt
+- die Dropdown-Farben werden jetzt über passende Theme-Ressourcen und System-Brush-Keys gesteuert
+- die ComboBox verwendet jetzt ein eigenes Theme-Template für geschlossenen Zustand, Popup und Auswahlzustand
+- derselbe ComboBox-Stil wird jetzt konsistent auch für die Filter-Dropdowns verwendet
 
 ### Schritt 7: Animationen
 
