@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using AssetBrowser.Services;
-using AssetBrowser.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AssetBrowser
@@ -35,7 +34,9 @@ namespace AssetBrowser
         {
             base.OnStartup(e);
 
-            serviceProvider = ConfigureServices();
+            serviceProvider = new ServiceCollection()
+                .AddAssetBrowserServices()
+                .BuildServiceProvider();
 
             var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
@@ -45,17 +46,6 @@ namespace AssetBrowser
         {
             serviceProvider?.Dispose();
             base.OnExit(e);
-        }
-
-        private static ServiceProvider ConfigureServices()
-        {
-            var services = new ServiceCollection();
-
-            services.AddSingleton<IAssetService, MockAssetService>();
-            services.AddSingleton<MainViewModel>();
-            services.AddSingleton<MainWindow>();
-
-            return services.BuildServiceProvider();
         }
     }
 

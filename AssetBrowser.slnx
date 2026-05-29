@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="AssetBrowser.csproj" />
+  <Project Path="tests\AssetBrowser.ViewModelTests\AssetBrowser.ViewModelTests.csproj" />
+  <Project Path="tests\AssetBrowser.IntegrationTests\AssetBrowser.IntegrationTests.csproj" />
 </Solution>

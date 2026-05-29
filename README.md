@@ -51,7 +51,13 @@ AssetBrowser/
 │  └─ AssetItem.cs
 ├─ Services/
 │  ├─ IAssetService.cs
-│  └─ MockAssetService.cs
+│  ├─ IThemeService.cs
+│  ├─ AppThemeService.cs
+│  ├─ MockAssetService.cs
+│  └─ ServiceCollectionExtensions.cs
+├─ tests/
+│  ├─ AssetBrowser.ViewModelTests/
+│  └─ AssetBrowser.IntegrationTests/
 ├─ ViewModels/
 │  └─ MainViewModel.cs
 ├─ MainWindow.xaml
@@ -67,6 +73,7 @@ AssetBrowser/
 - WPF
 - MVVM
 - CommunityToolkit.Mvvm
+- xUnit
 
 ## Verwendete CommunityToolkit.Mvvm-Features
 
@@ -271,7 +278,27 @@ Bereits umgesetzt:
 - Konstruktorinjektion für `MainViewModel` und `IAssetService`
 
 
-### Schritt 10: REST API-Anbindung an Agravity
+### Schritt 10: Unit & Integration Tests
+
+Bereits umgesetzt:
+
+- Unit Tests für ViewModel-Logik
+- Integrationstests für Service-Schicht
+- Testbare Strukturen durch DI und Service-Verträge
+- Testprojekte für ViewModel-Tests und Service-Tests
+- Beispieltests für Filterlogik, Command-Ausführung und Service-Methoden
+- zwei xUnit-Testprojekte unter `tests`
+- Theme-Wechsel über `IThemeService` testbarer gekapselt
+- zentrale DI-Registrierung über `ServiceCollectionExtensions`
+- Testprojekt `AssetBrowser.ViewModelTests` für ViewModel-Logik
+- Testprojekt `AssetBrowser.IntegrationTests` für Service- und DI-Tests
+- Beispieltests für Suche, Filter, Auswahlverhalten und Commands
+- Integrationstests für `MockAssetService` und zentrale DI-Registrierungen
+- testbarere Struktur durch `IThemeService` und zentrale Service-Registrierung
+- Ausschluss des Ordners `tests` aus dem WPF-Hauptprojekt, damit App- und Testcode sauber getrennt bleiben
+- Aufnahme der beiden Testprojekte in `AssetBrowser.slnx`, damit Build und Test Explorer sie laden können
+
+### Schritt 11: REST API-Anbindung an Agravity
 
 Geplante Erweiterung:
 

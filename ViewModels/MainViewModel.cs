@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Data;
 using AssetBrowser.Models;
 using AssetBrowser.Services;
@@ -42,10 +41,12 @@ public partial class MainViewModel : ObservableObject
     public IReadOnlyList<string> Themes { get; } = ["Light", "Dark"];
 
     private readonly IAssetService assetService;
+    private readonly IThemeService themeService;
 
-    public MainViewModel(IAssetService assetService)
+    public MainViewModel(IAssetService assetService, IThemeService themeService)
     {
         this.assetService = assetService;
+        this.themeService = themeService;
 
         LoadAssets();
 
@@ -136,10 +137,7 @@ public partial class MainViewModel : ObservableObject
 
     partial void OnSelectedThemeChanged(string value)
     {
-        if (Application.Current is App app)
-        {
-            app.ApplyTheme(value);
-        }
+        themeService.ApplyTheme(value);
     }
 
     private void RefreshFilters()
