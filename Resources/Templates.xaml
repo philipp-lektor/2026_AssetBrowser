@@ -1,0 +1,120 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="AssetListItemTemplate">
+        <Border Padding="12"
+                Margin="0,0,0,10"
+                Background="{StaticResource Brush.ItemBackground}"
+                BorderBrush="{StaticResource Brush.ItemBorder}"
+                BorderThickness="1"
+                CornerRadius="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="88" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.RowSpan="4"
+                        Grid.Column="0"
+                        Height="64"
+                        Background="{StaticResource Brush.ItemBorder}"
+                        CornerRadius="6"
+                        ClipToBounds="True">
+                    <Grid>
+                        <TextBlock Text="No Preview">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource PreviewPlaceholderTextStyle}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ThumbnailPath}" Value="">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ThumbnailPath}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Image Source="{Binding ThumbnailPath}">
+                            <Image.Style>
+                                <Style TargetType="Image" BasedOn="{StaticResource PreviewImageStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ThumbnailPath}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ThumbnailPath}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="0"
+                      Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{Binding Title}"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               TextTrimming="CharacterEllipsis" />
+
+                    <Border Grid.Column="1"
+                            Padding="8,3"
+                            Margin="12,0,0,0"
+                            Background="{StaticResource Brush.TypeBadgeBackground}"
+                            CornerRadius="12">
+                        <TextBlock Text="{Binding AssetType}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource Brush.TypeBadgeForeground}" />
+                    </Border>
+                </Grid>
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="2"
+                           Margin="0,8,0,0"
+                           Style="{StaticResource ItemMetaTextStyle}"
+                           Text="{Binding FileName}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="2"
+                           Margin="0,8,0,0"
+                           Foreground="{StaticResource Brush.TextSecondary}"
+                           Text="{Binding Description}"
+                           TextTrimming="CharacterEllipsis" />
+
+                <DockPanel Grid.Row="3"
+                           Grid.Column="2"
+                           Margin="0,10,0,0"
+                           LastChildFill="False">
+                    <TextBlock DockPanel.Dock="Left"
+                               Style="{StaticResource ItemMetaTextStyle}"
+                               Text="{Binding CreatedBy, StringFormat=By {0}}" />
+
+                    <TextBlock DockPanel.Dock="Left"
+                               Margin="12,0,0,0"
+                               Style="{StaticResource ItemMetaTextStyle}"
+                               Text="{Binding CreatedAt, StringFormat={}{0:dd.MM.yyyy}}" />
+
+                    <Border DockPanel.Dock="Right"
+                            Style="{StaticResource ItemStatusBadgeStyle}">
+                        <TextBlock Style="{StaticResource ItemStatusTextStyle}" />
+                    </Border>
+                </DockPanel>
+            </Grid>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

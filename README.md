@@ -194,11 +194,18 @@ Bereits umgesetzt:
 
 ### Schritt 5: Resource Dictionaries
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - Auslagern von Styles und Farben
 - Aufteilung der UI-Ressourcen in eigene Dateien
 - bessere Struktur für größere WPF-Projekte
+- `Brushes.xaml` für Farbressourcen
+- `Styles.xaml` für wiederverwendbare Styles
+- `Templates.xaml` für DataTemplates
+- Resource Dictionaries im Ordner `Resources`
+- Trennung von Brushes, Styles und Templates in eigene XAML-Dateien
+- Einbindung der Dictionaries über `MergedDictionaries` global in `App.xaml` geladen
+- `MainWindow.xaml` verwendet die Ressourcen nur noch, statt sie lokal erneut zu importieren
 
 ### Schritt 6: Light- und Dark-Theme
 
