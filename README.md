@@ -111,11 +111,11 @@ Diese erste Version enthält bereits wichtige WPF-Bausteine:
 
 Die Architektur ist absichtlich **einfach** gehalten:
 
-- noch **keine Dependency Injection**
 - noch **keine REST API**
 - noch **keine Datenbank**
 - noch **keine Navigation**
 - einfache **Service-Schicht** für Mockdaten
+- einfache **Dependency Injection** für Services und Hauptfenster
 
 Das Projekt soll leicht verständlich bleiben und sich gut für Lehre, Übungen und schrittweise Erweiterungen eignen.
 
@@ -257,11 +257,19 @@ Bereits umgesetzt:
 
 ### Schritt 9: Dependency Injection
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - Einführung einer einfachen DI-Konfiguration
 - ViewModels und Services über DI bereitstellen
 - Vorbereitung auf größere Anwendungen
+- `ServiceCollection` und `ServiceProvider` im `App`-Start
+- Registrierung von `IAssetService`, `MainViewModel` und `MainWindow`
+- `MainWindow` erhält das `MainViewModel` direkt per Konstruktor
+- NuGet-Paket `Microsoft.Extensions.DependencyInjection`
+- zentrale DI-Konfiguration in `App.xaml.cs`
+- Erstellung des Hauptfensters über den `ServiceProvider`
+- Konstruktorinjektion für `MainViewModel` und `IAssetService`
+
 
 ### Schritt 10: REST API-Anbindung an Agravity
 

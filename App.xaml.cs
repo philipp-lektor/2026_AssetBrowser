@@ -1,11 +1,15 @@
 ﻿using System.Windows;
 using AssetBrowser.Services;
+using AssetBrowser.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AssetBrowser
 {
     public partial class App : Application
     {
         private const string ThemeDictionaryPrefix = "Resources/Themes/";
+
+        private ServiceProvider? serviceProvider;
 
         public void ApplyTheme(string themeName)
         {
@@ -31,9 +35,27 @@ namespace AssetBrowser
         {
             base.OnStartup(e);
 
-            IAssetService assetService = new MockAssetService();
-            var mainWindow = new MainWindow(assetService);
+            serviceProvider = ConfigureServices();
+
+            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            serviceProvider?.Dispose();
+            base.OnExit(e);
+        }
+
+        private static ServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingleton<IAssetService, MockAssetService>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<MainWindow>();
+
+            return services.BuildServiceProvider();
         }
     }
 
