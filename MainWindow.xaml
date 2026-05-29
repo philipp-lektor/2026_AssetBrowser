@@ -6,6 +6,156 @@
         mc:Ignorable="d"
         Title="AssetBrowser" Height="600" Width="1000"
         MinHeight="500" MinWidth="900">
+    <Window.Resources>
+        <DataTemplate x:Key="AssetListItemTemplate">
+            <Border Padding="12"
+                    Margin="0,0,0,10"
+                    Background="#FFF9FAFB"
+                    BorderBrush="#FFE5E7EB"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="88" />
+                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.RowSpan="4"
+                            Grid.Column="0"
+                            Height="64"
+                            Background="#FFE5E7EB"
+                            CornerRadius="6"
+                            ClipToBounds="True">
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="#FF6B7280"
+                                       Text="No Preview">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ThumbnailPath}" Value="">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ThumbnailPath}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <Image Source="{Binding ThumbnailPath}"
+                                   Stretch="UniformToFill">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ThumbnailPath}" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ThumbnailPath}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Row="0"
+                          Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Title}"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis" />
+
+                        <Border Grid.Column="1"
+                                Padding="8,3"
+                                Margin="12,0,0,0"
+                                Background="#FFE0E7FF"
+                                CornerRadius="12">
+                            <TextBlock Text="{Binding AssetType}"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FF3730A3" />
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="2"
+                               Margin="0,8,0,0"
+                               Foreground="#FF6B7280"
+                               Text="{Binding FileName}" />
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="2"
+                               Margin="0,8,0,0"
+                               Foreground="#FF4B5563"
+                               Text="{Binding Description}"
+                               TextTrimming="CharacterEllipsis" />
+
+                    <DockPanel Grid.Row="3"
+                               Grid.Column="2"
+                               Margin="0,10,0,0"
+                               LastChildFill="False">
+                        <TextBlock DockPanel.Dock="Left"
+                                   Foreground="#FF6B7280"
+                                   Text="{Binding CreatedBy, StringFormat=By {0}}" />
+
+                        <TextBlock DockPanel.Dock="Left"
+                                   Margin="12,0,0,0"
+                                   Foreground="#FF6B7280"
+                                   Text="{Binding CreatedAt, StringFormat={}{0:dd.MM.yyyy}}" />
+
+                        <Border DockPanel.Dock="Right"
+                                Padding="8,3"
+                                Margin="12,0,0,0"
+                                CornerRadius="12">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#FFFEE2E2" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsApproved}" Value="True">
+                                            <Setter Property="Background" Value="#FFDCFCE7" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock FontSize="11"
+                                       FontWeight="SemiBold">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#FF991B1B" />
+                                        <Setter Property="Text" Value="Not approved" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsApproved}" Value="True">
+                                                <Setter Property="Foreground" Value="#FF166534" />
+                                                <Setter Property="Text" Value="Approved" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                    </DockPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -103,28 +253,8 @@
                              ItemsSource="{Binding FilteredAssets}"
                              SelectedItem="{Binding SelectedAsset, Mode=TwoWay}"
                              BorderThickness="0"
-                             Background="Transparent">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Padding="10"
-                                        Margin="0,0,0,8"
-                                        BorderBrush="#FFE5E7EB"
-                                        BorderThickness="1"
-                                        CornerRadius="6">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Title}"
-                                                   FontWeight="SemiBold" />
-                                        <TextBlock Margin="0,4,0,0"
-                                                   Foreground="#FF6B7280"
-                                                   Text="{Binding FileName}" />
-                                        <TextBlock Margin="0,2,0,0"
-                                                   Foreground="#FF6B7280"
-                                                   Text="{Binding AssetType}" />
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                             Background="Transparent"
+                             ItemTemplate="{StaticResource AssetListItemTemplate}" />
                 </Grid>
             </Border>
 
@@ -159,46 +289,99 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
                                    Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
-                                   Text="Title" />
-                        <TextBox Grid.Row="0"
-                                 Grid.Column="1"
-                                 Margin="0,0,0,12"
-                                 Text="{Binding SelectedAsset.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                   VerticalAlignment="Top"
+                                   Text="Thumbnail" />
+                        <Border Grid.Row="0"
+                                Grid.Column="1"
+                                Height="140"
+                                Margin="0,0,0,12"
+                                Background="#FFF3F4F6"
+                                BorderBrush="#FFD0D7DE"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                ClipToBounds="True">
+                            <Grid>
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="#FF6B7280"
+                                           Text="No preview available">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedAsset.ThumbnailPath}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding SelectedAsset.ThumbnailPath}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Image Source="{Binding SelectedAsset.ThumbnailPath}"
+                                       Stretch="UniformToFill">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedAsset.ThumbnailPath}" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding SelectedAsset.ThumbnailPath}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Grid>
+                        </Border>
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
                                    Margin="0,0,12,12"
                                    VerticalAlignment="Center"
-                                   Text="File name" />
+                                   Text="Title" />
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
                                  Margin="0,0,0,12"
-                                 Text="{Binding SelectedAsset.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                 Text="{Binding SelectedAsset.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
                                    Margin="0,0,12,12"
                                    VerticalAlignment="Center"
+                                   Text="File name" />
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 Margin="0,0,0,12"
+                                 Text="{Binding SelectedAsset.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   Margin="0,0,12,12"
+                                   VerticalAlignment="Center"
                                    Text="Asset type" />
-                        <ComboBox Grid.Row="2"
+                        <ComboBox Grid.Row="3"
                                   Grid.Column="1"
                                   Margin="0,0,0,12"
                                   ItemsSource="{Binding AssetTypes}"
                                   SelectedItem="{Binding SelectedAsset.AssetType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <TextBlock Grid.Row="3"
+                        <TextBlock Grid.Row="4"
                                    Grid.Column="0"
                                    Margin="0,0,12,12"
                                    VerticalAlignment="Top"
                                    Text="Description" />
-                        <TextBox Grid.Row="3"
+                        <TextBox Grid.Row="4"
                                  Grid.Column="1"
                                  Margin="0,0,0,12"
                                  Height="80"
@@ -207,43 +390,43 @@
                                  VerticalScrollBarVisibility="Auto"
                                  Text="{Binding SelectedAsset.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <TextBlock Grid.Row="4"
-                                   Grid.Column="0"
-                                   Margin="0,0,12,12"
-                                   VerticalAlignment="Center"
-                                   Text="Created by" />
-                        <TextBox Grid.Row="4"
-                                 Grid.Column="1"
-                                 Margin="0,0,0,12"
-                                 Text="{Binding SelectedAsset.CreatedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                         <TextBlock Grid.Row="5"
                                    Grid.Column="0"
                                    Margin="0,0,12,12"
                                    VerticalAlignment="Center"
-                                   Text="Created at" />
-                        <DatePicker Grid.Row="5"
-                                    Grid.Column="1"
-                                    Margin="0,0,0,12"
-                                    SelectedDate="{Binding SelectedAsset.CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                   Text="Created by" />
+                        <TextBox Grid.Row="5"
+                                 Grid.Column="1"
+                                 Margin="0,0,0,12"
+                                 Text="{Binding SelectedAsset.CreatedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="6"
                                    Grid.Column="0"
                                    Margin="0,0,12,12"
                                    VerticalAlignment="Center"
+                                   Text="Created at" />
+                        <DatePicker Grid.Row="6"
+                                    Grid.Column="1"
+                                    Margin="0,0,0,12"
+                                    SelectedDate="{Binding SelectedAsset.CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="7"
+                                   Grid.Column="0"
+                                   Margin="0,0,12,12"
+                                   VerticalAlignment="Center"
                                    Text="Approved" />
-                        <CheckBox Grid.Row="6"
+                        <CheckBox Grid.Row="7"
                                   Grid.Column="1"
                                   Margin="0,0,0,12"
                                   VerticalAlignment="Center"
                                   IsChecked="{Binding SelectedAsset.IsApproved, Mode=TwoWay}" />
 
-                        <TextBlock Grid.Row="7"
+                        <TextBlock Grid.Row="8"
                                    Grid.Column="0"
                                    Margin="0,0,12,0"
                                    VerticalAlignment="Center"
                                    Text="Thumbnail path" />
-                        <TextBox Grid.Row="7"
+                        <TextBox Grid.Row="8"
                                  Grid.Column="1"
                                  Text="{Binding SelectedAsset.ThumbnailPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>

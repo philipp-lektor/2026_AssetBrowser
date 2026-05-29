@@ -44,7 +44,7 @@ public partial class MainViewModel : ObservableObject
 
     private void LoadMockData()
     {
-        Assets.Add(new AssetItem
+        RegisterAsset(new AssetItem
         {
             Title = "Mountain Sunrise",
             FileName = "mountain-sunrise.jpg",
@@ -53,10 +53,10 @@ public partial class MainViewModel : ObservableObject
             CreatedBy = "Emma Carter",
             CreatedAt = new DateTime(2025, 3, 12),
             IsApproved = true,
-            ThumbnailPath = "Assets/Images/mountain-sunrise.jpg"
+            ThumbnailPath = "https://picsum.photos/seed/mountain-sunrise/320/180"
         });
 
-        Assets.Add(new AssetItem
+        RegisterAsset(new AssetItem
         {
             Title = "Product Launch Trailer",
             FileName = "launch-trailer.mp4",
@@ -65,10 +65,10 @@ public partial class MainViewModel : ObservableObject
             CreatedBy = "Liam Johnson",
             CreatedAt = new DateTime(2025, 4, 2),
             IsApproved = false,
-            ThumbnailPath = "Assets/Videos/launch-trailer.png"
+            ThumbnailPath = "https://picsum.photos/seed/launch-trailer/320/180"
         });
 
-        Assets.Add(new AssetItem
+        RegisterAsset(new AssetItem
         {
             Title = "Brand Guidelines",
             FileName = "brand-guidelines.pdf",
@@ -77,7 +77,7 @@ public partial class MainViewModel : ObservableObject
             CreatedBy = "Sophia Miller",
             CreatedAt = new DateTime(2025, 1, 18),
             IsApproved = true,
-            ThumbnailPath = "Assets/Documents/brand-guidelines.png"
+            ThumbnailPath = "https://picsum.photos/seed/brand-guidelines/320/180"
         });
 
         SelectedAsset = Assets.FirstOrDefault();
@@ -95,10 +95,10 @@ public partial class MainViewModel : ObservableObject
             CreatedBy = "Student",
             CreatedAt = DateTime.Today,
             IsApproved = false,
-            ThumbnailPath = string.Empty
+            ThumbnailPath = $"https://picsum.photos/seed/asset-{Assets.Count + 1}/320/180"
         };
 
-        Assets.Add(newAsset);
+        RegisterAsset(newAsset);
         RefreshFilters();
         SelectedAsset = newAsset;
     }
@@ -114,6 +114,7 @@ public partial class MainViewModel : ObservableObject
         var assetToRemove = SelectedAsset;
         var assetIndex = Assets.IndexOf(assetToRemove);
 
+        UnregisterAsset(assetToRemove);
         Assets.Remove(assetToRemove);
         RefreshFilters();
 
@@ -161,6 +162,22 @@ public partial class MainViewModel : ObservableObject
         {
             SelectedAsset = null;
         }
+    }
+
+    private void RegisterAsset(AssetItem asset)
+    {
+        asset.PropertyChanged += Asset_PropertyChanged;
+        Assets.Add(asset);
+    }
+
+    private void UnregisterAsset(AssetItem asset)
+    {
+        asset.PropertyChanged -= Asset_PropertyChanged;
+    }
+
+    private void Asset_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        RefreshFilters();
     }
 
     private bool FilterAsset(object item)

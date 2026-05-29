@@ -166,11 +166,20 @@ Ergänzt wurden:
 
 ### Schritt 3: Bessere Darstellung mit DataTemplates
 
-Geplante Erweiterung:
+Bereits umgesetzt:
 
 - schönere Listendarstellung je Asset
 - visuelle Hervorhebung wichtiger Informationen
 - stärkere Trennung zwischen Daten und Darstellung
+- Typ-Badge, Statusanzeige und Metadaten in jedem Listeneintrag
+- ein zentrales `DataTemplate` für die Asset-Liste
+- bessere visuelle Struktur der Listeneinträge
+- Anzeige von Asset-Typ, Status, Ersteller und Datum direkt in der Liste
+- stärkere Trennung zwischen Daten und Darstellung in der View
+- `ThumbnailPath` wird jetzt als Bildvorschau in Liste und Detailbereich dargestellt
+- `AssetItem` verwendet jetzt ebenfalls das MVVM CommunityToolkit
+- Properties im Model werden über `[ObservableProperty]` erzeugt
+- die Benachrichtigungslogik im Model bleibt damit konsistent zum restlichen Projekt
 
 ### Schritt 4: Styles
 

@@ -1,20 +1,30 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace AssetBrowser.Models;
 
-public class AssetItem
+public partial class AssetItem : ObservableObject
 {
-    public string Title { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string title = string.Empty;
 
-    public string FileName { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string fileName = string.Empty;
 
-    public string AssetType { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string assetType = string.Empty;
 
-    public string Description { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string description = string.Empty;
 
-    public string CreatedBy { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string createdBy = string.Empty;
 
-    public DateTime CreatedAt { get; set; }
+    [ObservableProperty]
+    private DateTime createdAt;
 
-    public bool IsApproved { get; set; }
+    [ObservableProperty]
+    private bool isApproved;
 
-    public string ThumbnailPath { get; set; } = string.Empty;
+    [ObservableProperty]
+    private string thumbnailPath = string.Empty;
 }
